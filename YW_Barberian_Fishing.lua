@@ -1,7 +1,27 @@
+--[[
+Script Name: YW Barberian Fishing
+Arthur: YmirWork
+Version: 1.0
+
+
+Changelog history:
+Added 0.5 : 
+Added ProgressBar
+
+Added 1.0 :
+Added ID Urns
+Added Using URNS if have in inventory.
+
+Special Thanks:
+Chad from Orgial scripts come from
+]]
+
+
 local API = require("api")
 
 local startXp = API.GetSkillXP("FISHING")
 startTime, afk = os.time(), os.time()
+
 
 -- Rounds a number to the nearest integer or to a specified number of decimal places.
 local function round(val, decimal)
@@ -74,12 +94,16 @@ ID_FISHING_SPOT = {
     CATCH = 328
   }
 
+ID_URN = {
+    PLAIN_FISHING_URN = 20336
+  }
+
 local function catchFish()
     if playerAnimation == 24928 then
         return
     end
     API.DoAction_NPC(0x3c,1488,{ ID_FISHING_SPOT.CATCH },50);
-    API.RandomSleep2(2000, 300, 600)
+    API.RandomSleep2(2000, 300, 600)    
 end
 
 local function isInventoryFull()
@@ -105,9 +129,12 @@ do------------------------------------------------------------------------------
     end
     if isInventoryFull() then
         repeat
-            API.KeyboardPress("-", 100, 120)
-            API.KeyboardPress("=", 100, 120)
+            API.KeyboardPress("-", 50, 70)
+            API.KeyboardPress("=", 50, 70)
         until API.Invfreecount_() > 23
+    end
+    if API.InvItemcount_2(ID_URN.PLAIN_FISHING_URN) >= 1 then
+        API.KeyboardPress('E',200,300)
     end
 
     printProgressReport()
