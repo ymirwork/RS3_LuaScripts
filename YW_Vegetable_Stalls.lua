@@ -89,11 +89,15 @@ local function printProgressReport(final)
     local xpPH = round((diffXp * 60) / elapsedMinutes);
     local time = formatElapsedTime(startTime)
     local currentLevel = API.XPLevelTable(API.GetSkillXP(skill))
+    local xplvlup = API.XPForLevel(currentLevel +1)
+    local xp99 = API.XPForLevel(99)
+    local timeNeeded = round(((xplvlup - currentXp) / xpPH)*60)
+    local timeneededfor99 = round(((xp99 - currentXp) / xpPH)*60)     
     IGP.radius = calcProgressPercentage(skill, API.GetSkillXP(skill)) / 100
     IGP.string_value = time ..
     " | " ..
     string.lower(skill):gsub("^%l", string.upper) ..
-    ": " .. currentLevel .. " | XP/H: " .. formatNumber(xpPH) .. " | XP: " .. formatNumber(diffXp)
+    ": " .. currentLevel .. " | XP/H: " .. formatNumber(xpPH) .. " | XP: " .. formatNumber(diffXp)  .. " | TTL: " .. formatNumber(timeNeeded) .. " minut" .. " | TTL99: " .. formatNumber(timeneededfor99) .. " minut"
 end
 
 local function setupGUI()
